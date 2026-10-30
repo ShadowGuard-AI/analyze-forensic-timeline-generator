@@ -2,7 +2,7 @@ import argparse
 import logging
 import pandas as pd
 import os
-import re
+import sys
 from datetime import datetime
 
 # Configure logging
@@ -20,16 +20,6 @@ TIMESTAMP_FORMATS = [
     "%a %b %d %H:%M:%S.%f %Y"  # Extended Syslog format
 ]
 
-# Define event priorities
-EVENT_PRIORITIES = {
-    "critical": 1,
-    "high": 2,
-    "medium": 3,
-    "low": 4,
-    "info": 5
-}
-
-
 def setup_argparse():
     """
     Sets up the argument parser for the command line interface.
@@ -39,8 +29,11 @@ def setup_argparse():
     parser = argparse.ArgumentParser(description="Generates a timeline of system events from log files.")
     parser.add_argument("log_files", nargs="+", help="Path(s) to the log file(s).")
     parser.add_argument("-o", "--output", default="timeline.csv", help="Output CSV file (default: timeline.csv).")
-    parser.add_argument("-tsf", "--timestamp_format",  action='append', help="Timestamp format(s) to try (e.g., '%Y-%m-%d %H:%M:%S').  Can specify multiple formats.") # Allow multiple timestamp formats to be specified
-    parser.add_argument("-p", "--priority", default="info", choices=EVENT_PRIORITIES.keys(), help="Minimum event priority to include (default: info).")
+    parser.add_argument("-tsf", "--timestamp_format",  action='append', help="Timestamp format(s) to try (e.g., '%%Y-%%m-%%d %%H:%%M:%%S').  Can specify multiple formats.") # Allow multiple timestamp formats to be specified
+    # There is no --priority option. An earlier version accepted one and
+    # then never used it, because these log lines carry no priority field
+    # to filter on, and guessing a level from words in the message would
+    # drop lines silently. Keyword filtering (-k) is the honest filter.
     parser.add_argument("-k", "--keywords", nargs="+", help="Keywords to filter for in log entries.")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output for debugging.")
     parser.add_argument("--no-header", action="store_true", help="Omit the CSV header in the output file.") # Option to disable the header for easier processing downstream
@@ -59,17 +52,21 @@ def parse_log_entry(log_entry, timestamp_formats):
         tuple: A tuple containing the datetime object and the event description, or (None, None) if parsing fails.
     """
     for timestamp_format in timestamp_formats:
+        # The candidate width has to come from the format being tried.
+        # Taking only the first word can never match a format that itself
+        # contains spaces, which is most of the default list, so those
+        # formats were dead code before this counted the format's words.
+        word_count = timestamp_format.count(" ") + 1
+        words = log_entry.split(" ")
+        if len(words) < word_count:
+            continue
+        timestamp_str = " ".join(words[:word_count])
         try:
-            # Attempt to extract timestamp based on defined formats
-            timestamp_str = log_entry.split(" ", 1)[0] # Basic split on the first space to isolate potential timestamp
             dt = datetime.strptime(timestamp_str, timestamp_format)
-            description = log_entry[len(timestamp_str):].strip()  # Extract the rest as description
-            return dt, description
-
         except ValueError:
             continue # Try the next format
-        except IndexError:
-            continue # Handle cases with malformed entries
+        description = " ".join(words[word_count:]).strip()
+        return dt, description
 
 
     return None, log_entry  # If no format matches, return None and the raw log entry
@@ -124,16 +121,13 @@ def main():
     for log_file in args.log_files:
         if not os.path.isfile(log_file):
             logging.error(f"Invalid log file path: {log_file}")
-            return
+            sys.exit(1)
 
     # Validate timestamp formats
     if args.timestamp_format:
         timestamp_formats = args.timestamp_format
     else:
         timestamp_formats = TIMESTAMP_FORMATS # Fallback to the default list.
-
-    # Validate priority
-    min_priority_level = EVENT_PRIORITIES[args.priority]
 
     all_events = []
     for log_file in args.log_files:
