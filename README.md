@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # analyze-forensic-timeline-generator
 Generates a timeline of system events from various log files and metadata (file creation, modification, access times) to reconstruct attack sequences. Supports different timestamp formats and prioritization based on event type. - Focused on Data analysis and reporting
 
