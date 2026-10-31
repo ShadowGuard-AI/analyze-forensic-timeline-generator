@@ -16,6 +16,8 @@ Generates a timeline of system events from log files to reconstruct attack seque
 - `-v`: Enable verbose output for debugging.
 - `--no-header`: Omit the CSV header in the output file.
 
+Exit status: the tool exits 1 if the output CSV cannot be written, or if any named log file could not be read. Exit 0 means the timeline was written and every named log file was read.
+
 Note: an earlier `-p` / `--priority` option was removed in 2026. It accepted a minimum priority but never filtered anything, because the log lines this tool parses carry no priority field. Use `-k` to filter by keyword instead.
 
 ## License

@@ -81,7 +81,9 @@ def process_log_file(log_file_path, timestamp_formats, keywords=None):
         keywords (list): List of keywords to filter for.
 
     Returns:
-        list: A list of dictionaries, where each dictionary represents an event.
+        tuple: A pair (events, read_failed), where events is a list of
+        dictionaries representing events, and read_failed is True when
+        the named file could not be read.
     """
     events = []
     try:
@@ -102,9 +104,11 @@ def process_log_file(log_file_path, timestamp_formats, keywords=None):
 
     except FileNotFoundError:
         logging.error(f"Log file not found: {log_file_path}")
+        return events, True
     except Exception as e:
         logging.error(f"Error processing log file {log_file_path}: {e}")
-    return events
+        return events, True
+    return events, False
 
 
 def main():
@@ -130,8 +134,11 @@ def main():
         timestamp_formats = TIMESTAMP_FORMATS # Fallback to the default list.
 
     all_events = []
+    failed_files = []
     for log_file in args.log_files:
-        events = process_log_file(log_file, timestamp_formats, args.keywords)
+        events, read_failed = process_log_file(log_file, timestamp_formats, args.keywords)
+        if read_failed:
+            failed_files.append(log_file)
         all_events.extend(events)
 
     # Convert to Pandas DataFrame for easier sorting and output
@@ -142,11 +149,18 @@ def main():
         df = df[["timestamp", "source", "description"]]  # Reorder columns
         try:
             df.to_csv(args.output, index=False, header=not args.no_header)
-            logging.info(f"Timeline generated successfully and saved to: {args.output}")
         except Exception as e:
             logging.error(f"Error writing to CSV file: {e}")
+            sys.exit(1)
+        if failed_files:
+            logging.error(f"Timeline written to {args.output}, but {len(failed_files)} log file(s) could not be read: {', '.join(failed_files)}")
+            sys.exit(1)
+        logging.info(f"Timeline generated successfully and saved to: {args.output}")
 
     else:
+        if failed_files:
+            logging.error(f"No timeline generated: {len(failed_files)} log file(s) could not be read: {', '.join(failed_files)}")
+            sys.exit(1)
         logging.warning("No events found to generate timeline.")
 
 
