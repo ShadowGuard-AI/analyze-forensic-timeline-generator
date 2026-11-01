@@ -57,6 +57,11 @@ def parse_log_entry(log_entry, timestamp_formats):
         # contains spaces, which is most of the default list, so those
         # formats were dead code before this counted the format's words.
         word_count = timestamp_format.count(" ") + 1
+        # Splitting on a single literal space is brittle in a known
+        # way: a syslog line with a padded single digit day has two
+        # spaces in a row, which produces an empty word and shifts
+        # every count after it, and a tab separated stamp never splits
+        # at all. Those lines fall through to the unparsed warning.
         words = log_entry.split(" ")
         if len(words) < word_count:
             continue
@@ -96,10 +101,20 @@ def process_log_file(log_file_path, timestamp_formats, keywords=None):
                 dt, description = parse_log_entry(line, timestamp_formats)
 
                 if dt:
+                    # Keywords are matched against the description
+                    # only, never the timestamp or the source path, so
+                    # filtering on a file name or a date string finds
+                    # nothing even when the timeline is full of it.
                     if keywords is None or any(keyword.lower() in description.lower() for keyword in keywords): #Keyword check and case-insensitive compare
                         events.append({"timestamp": dt, "description": description, "source": log_file_path})
 
                 else:
+                    # Unparsed lines are dropped, not carried into the
+                    # timeline as undated rows. parse_log_entry hands
+                    # back the raw line, but this caller discards it, so
+                    # a log in a format the list does not know produces
+                    # an empty timeline and a pile of warnings, never a
+                    # partial timeline with the odd lines preserved.
                     logging.warning(f"Could not parse timestamp in line: {line} from {log_file_path}")
 
     except FileNotFoundError:
@@ -127,7 +142,12 @@ def main():
             logging.error(f"Invalid log file path: {log_file}")
             sys.exit(1)
 
-    # Validate timestamp formats
+    # A format given on the command line replaces the default list
+    # outright, it does not extend it. One custom format therefore
+    # turns off all eight defaults, which surprises people who add a
+    # format expecting the built in ones to keep working. None of the
+    # formats, default or custom, carries a time zone, so events from
+    # sources in different zones are sorted as if they shared one.
     if args.timestamp_format:
         timestamp_formats = args.timestamp_format
     else:
