@@ -1,4 +1,11 @@
-![Banner](banner.png)
+![Farmyard before a storm with no inscription anywhere: open sample case with rods on the cart tailboard in front, barn with a blackened gable and farmhouse with its older rod behind, still wash on a line, and a large sky with one distant sheet of rain](intro-banner.png)
+
+# analyze-forensic-timeline-generator
+
+![Farmyard in copper storm light with the salesman's cart and open sample case at the centre, an assembled rod on trestles, and the project name stencilled inside the case lid](banner.png)
+
+![Farmyard in three planes: clouds drift and darken, the barn vane turns in small steps and a barometer needle trembles, and near the open case a brightening travels along the rod tips in sequence like an eye reading entries in order](scene.svg)
+
 
 # analyze-forensic-timeline-generator
 Generates a timeline of system events from log files to reconstruct attack sequences. Supports different timestamp formats. - Focused on Data analysis and reporting
@@ -22,3 +29,5 @@ Note: an earlier `-p` / `--priority` option was removed in 2026. It accepted a m
 
 ## License
 Copyright (c) ShadowGuardAI
+
+> Storm note: -o and -tsf are both listed with no description provided, and this page does not guess at either. A second storm note belongs to the retired model: the removed -p and --priority option never filtered anything, because the log lines this tool parses carry no priority field, and -k is the filter to use in its place.
