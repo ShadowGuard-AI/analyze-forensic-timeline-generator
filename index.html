@@ -3,74 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>analyze-forensic-timeline-generator: Lightning Rod Salesman's Sample Case</title>
-<meta name="description" content="analyze-forensic-timeline-generator generates a timeline of system events from log files to reconstruct attack sequences and supports different timestamp formats.">
+<title>analyze-forensic-timeline-generator: The Excavation Grid</title>
 <style>
-@font-face{font-family:'Averia Gruesa Libre';src:url('fonts/AveriaGruesaLibre.ttf') format('truetype');}
-@font-face{font-family:'Bitter';src:url('fonts/Bitter.ttf') format('truetype');}
-:root{--grey:#5a5a58;--cream:#f3ead6;--orange:#d97b2e;--blue:#2e5f8a;--red:#b3312a}
-*{box-sizing:border-box}body{margin:0;background:var(--grey);color:#26261f;font-family:'Bitter',serif;line-height:1.65}
-h1,h2{font-family:'Averia Gruesa Libre',serif}
-.hero{padding:2rem 6vw 0;max-width:1080px;margin:0 auto;color:var(--cream)}.hero img.banner{width:100%}.logo{width:190px}
-main{padding:0 6vw 3rem;max-width:1080px;margin:0 auto}
-nav{display:flex;gap:.7rem;flex-wrap:wrap;margin:1rem 0}
-.latch{display:inline-block;background:rgba(243,234,214,.82);color:var(--grey);font-family:'Averia Gruesa Libre',serif;text-decoration:none;padding:.65rem 1.2rem;border:1px solid #d9c9a4;border-radius:3px;box-shadow:inset 0 0 14px rgba(217,123,46,.35)}
-.latch:hover{background:var(--cream);box-shadow:inset 0 0 2px rgba(217,123,46,.1)}
-.latch:active{box-shadow:inset 0 0 0 3px rgba(38,38,31,.55)}
-.latch:focus-visible{outline:1px solid var(--red);outline-offset:2px}
-.compartment{background:var(--cream);border:10px solid #494947;padding:0 1.4rem 1.2rem;margin:1.6rem 0;position:relative}
-.compartment:before{content:'';position:absolute;inset:4px;border:2px solid rgba(73,73,71,.35);pointer-events:none}
-.compartment h2{border-top:2px solid var(--grey);padding-top:.5rem;color:#333331}
-pre{background:#494947;color:var(--cream);padding:1rem;overflow-x:auto}
-a{color:var(--blue)}a:before{content:'';display:inline-block;width:3px;height:14px;background:var(--blue);border-radius:2px;margin-right:.5em;vertical-align:-2px;box-shadow:0 -6px 0 -1px var(--blue)}
-a:hover:before{background:var(--orange);box-shadow:0 -6px 0 -1px var(--orange)}
-.latch:before,nav a:before{content:none}
-.vane{height:16px;margin:2rem 0;border-top:2px solid #3d3d3b;position:relative}
-.vane:after{content:'';position:absolute;left:50%;top:-6px;border-left:14px solid var(--orange);border-top:5px solid transparent;border-bottom:5px solid transparent}
-.note{border-left:5px solid var(--red);padding-left:1rem}
-footer{padding:1rem 6vw 2.4rem;max-width:1080px;margin:0 auto;color:var(--cream)}
+@font-face { font-family: 'Kameron'; src: url('fonts/Kameron-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Kameron'; src: url('fonts/Kameron-700.woff2') format('woff2'); font-weight: 700; }
+@font-face { font-family: 'Source Serif 4'; src: url('fonts/SourceSerif4-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Source Serif 4'; src: url('fonts/SourceSerif4-700.woff2') format('woff2'); font-weight: 700; }
+:root { --soil: #6e5138; --string: #f5f1e8; --canvas: #d9c9a3; --marker: #e86a17; --ink: #2e2119; --paper: #f3ecdc; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Source Serif 4', serif; background: var(--paper); color: var(--ink); line-height: 1.65; }
+header.top { display: flex; justify-content: space-between; align-items: center; padding: 16px 28px; background: var(--soil); color: var(--string); border-bottom: 5px solid var(--marker); }
+.wordmark { font-weight: 700; letter-spacing: .03em; }
+.flag { color: #ffc9a3; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; }
+.hero { text-align: center; padding: 50px 22px 8px; }
+.hero img.logo { width: 170px; height: auto; border: 5px solid var(--soil); }
+h1 { font-family: 'Kameron', serif; font-weight: 700; font-size: 2.5rem; margin: 18px 0 6px; color: var(--soil); }
+h2 { font-family: 'Kameron', serif; font-weight: 700; color: var(--soil); border-bottom: 3px solid var(--canvas); padding-bottom: 5px; margin-top: 38px; }
+.tag { max-width: 44rem; margin: 0 auto; }
+.buttons { margin: 22px 0 6px; }
+.buttons a { display: inline-block; margin: 4px; padding: 11px 22px; background: var(--marker); color: #fff; font-weight: 700; text-decoration: none; border-radius: 4px; }
+.buttons a.alt { background: transparent; color: var(--soil); border: 2px solid var(--soil); }
+figure.wide { max-width: 1020px; margin: 24px auto; padding: 0 18px; }
+figure.wide img { width: 100%; height: auto; display: block; border: 1px solid var(--canvas); }
+figcaption { color: #77644c; font-size: .93rem; padding-top: 8px; text-align: center; }
+.strip { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; padding: 20px 18px; }
+.strip div { background: #fff; border: 1px solid var(--canvas); border-top: 4px solid var(--marker); padding: 13px 18px; min-width: 180px; text-align: center; }
+.strip b { display: block; font-family: 'Kameron', serif; color: var(--soil); font-size: 1.15rem; }
+main { max-width: 880px; margin: 0 auto; padding: 8px 22px 30px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid var(--canvas); padding: 8px 12px; text-align: left; vertical-align: top; }
+th { background: var(--soil); color: var(--string); }
+code { background: #eadfc6; padding: 1px 6px; border-radius: 3px; }
+.hold { border-left: 5px solid var(--marker); background: #f0e3c8; padding: 13px 18px; }
+footer { text-align: center; padding: 24px 18px 32px; color: #77644c; font-size: .93rem; border-top: 5px solid var(--marker); margin-top: 28px; }
 </style>
 </head>
 <body>
-<header class="hero">
-<img class="logo" src="assets/logo.png" alt="Open sample case with three graduated lightning rods with orange ball finials, a copper vane arrow, a barometer dial in the lid, and one red stripe along the bottom edge">
-<img class="banner" src="assets/banner.png" alt="Farmyard before a storm with the salesman's cart and open sample case, the project name stencilled inside the case lid">
-<h1>analyze-forensic-timeline-generator</h1>
-<p>A salesman's route book crossed with a forecast sheet. Each stop on the route answers one question about the tool, in the order a careful buyer would ask them.</p>
-<nav>
-<a class="latch" href="#offer">First stop: the goods</a>
-<a class="latch" href="#ordering">Second stop: ordering</a>
-<a class="latch" href="#fittings">Third stop: fittings</a>
-<a class="latch" href="#guarantee">Fourth stop: guarantee</a>
-</nav>
-</header>
+<header class="top"><span class="wordmark">analyze-forensic-timeline-generator</span><span class="flag">One orange flag</span></header>
+<section class="hero">
+<img class="logo" src="assets/logo.png" alt="One square of an excavation trench from directly above, brown soil divided by taut white string, a pottery shard and a corroded coin lying where they were uncovered, one orange marker flag at the square corner">
+<h1>The Excavation Grid</h1>
+<p class="tag">Generates a timeline of system events from log files to reconstruct attack sequences. Supports different timestamp formats. Every find stays exactly where it fell until it is recorded; every log line keeps its place in the sequence the same way.</p>
+<p class="buttons"><a href="https://github.com/ShadowGuard-AI/analyze-forensic-timeline-generator">View on GitHub</a> <a class="alt" href="https://github.com/ShadowGuard-AI/analyze-forensic-timeline-generator#readme">Read the README</a></p>
+</section>
+<figure class="wide"><img src="assets/intro-banner.png" alt="One excavation square close up as a gloved hand brushes soil from a pottery shard lying exactly where it fell, the white string grid sharp around it and an orange marker flag soft behind"><figcaption>A brush clearing soil from a find lying exactly where it fell, the string grid sharp around it.</figcaption></figure>
+<div class="strip">
+<div><b>Log files</b>in, timeline out</div>
+<div><b>-k</b>keyword filtering</div>
+<div><b>Formats</b>different timestamps supported</div>
+<div><b>pandas</b>the one requirement</div>
+</div>
 <main>
-<section class="compartment" id="offer"><h2>First stop: the goods on offer</h2>
-<p>analyze-forensic-timeline-generator generates a timeline of system events from log files to reconstruct attack sequences, supports different timestamp formats, and is grouped by its README under data analysis and reporting.</p>
-<p>Those three claims are the whole offer. This stop shows no sample log line, no example timeline row, and no list of the timestamp formats supported, because the source supplies none of those, and it says so here in ordinary type rather than letting a visitor assume a list exists further down the page.</p>
-</section>
-<div class="vane"></div>
-<section class="compartment" id="ordering"><h2>Second stop: ordering and starting</h2>
-<pre>git clone https://github.com/ShadowGuardAI/analyze-forensic-timeline-generator
-./analyze-forensic-timeline-generator [params]</pre>
-<p>Route note, set directly under the clone line: the address as printed names the organisation without its hyphen, ShadowGuardAI in one word, while the repository itself lives under the hyphenated ShadowGuard-AI. The stop warns a traveller before the road does.</p>
-</section>
-<div class="vane"></div>
-<section class="compartment" id="fittings"><h2>Third stop: the fittings, five in a row</h2>
-<p><code>-o</code>: no description in the source.</p>
-<p><code>-tsf</code>: no description in the source. This stop resists the obvious guess in print: the README elsewhere says different timestamp formats are supported, which makes a timestamp format reading of <code>-tsf</code> plausible, but plausibility is not documentation, and the fitting is left unlabelled rather than engraved with a guess.</p>
-<p><code>-k</code> takes keywords to filter for in log entries, and it is the one working filter the tool claims.</p>
-<p><code>-v</code> enables verbose output for debugging.</p>
-<p><code>--no-header</code> omits the CSV header in the output file, from which a visitor also learns that the timeline output is a CSV file, a fact the README never states in its own sentence and reveals only through this flag and the exit wording at the next stop.</p>
-</section>
-<div class="vane"></div>
-<section class="compartment" id="guarantee"><h2>Fourth stop: the guarantee and the retired model</h2>
-<p>The tool exits 1 if the output CSV cannot be written, or if any named log file could not be read. Exit 0 means the timeline was written and every named log file was read.</p>
-<p class="note">Removal notice, given its full wording in substance: an earlier <code>-p</code> and <code>--priority</code> option was removed in 2026 because it accepted a minimum priority yet never filtered anything, the log lines this tool parses carrying no priority field. <code>-k</code> stands in its place as the filter to use.</p>
-<p>Licence is the last line of the route book: Copyright (c) ShadowGuardAI, reproduced as written, with no licence named, and the same missing hyphen in the holder name that the clone line carries.</p>
-<p><a href="https://github.com/ShadowGuard-AI/analyze-forensic-timeline-generator">The repository on GitHub</a></p>
-</section>
+<h2>What it does</h2>
+<p>The tool generates a timeline of system events from log files, to reconstruct attack sequences, and supports different timestamp formats. Usage, as the README gives it: <code>./analyze-forensic-timeline-generator [params]</code>. Its one requirement is <code>pandas&gt;=2.1.0</code>.</p>
+<figure class="wide" style="padding:0;margin:18px 0;"><img src="assets/banner.png" alt="Long excavation trench in flat daylight divided by white string into a row of even squares, buckets and brushes at the trench edge, small finds lying in place in square after square, one orange flag standing in a single square near the centre"></figure>
+<h2>Parameters</h2>
+<table>
+<tr><th>Parameter</th><th>What the README says</th></tr>
+<tr><td><code>-o</code></td><td>No description provided</td></tr>
+<tr><td><code>-tsf</code></td><td>No description provided</td></tr>
+<tr><td><code>-k</code></td><td>Keywords to filter for in log entries.</td></tr>
+<tr><td><code>-v</code></td><td>Enable verbose output for debugging.</td></tr>
+<tr><td><code>--no-header</code></td><td>Omit the CSV header in the output file.</td></tr>
+</table>
+<h2>Exit status, stated exactly</h2>
+<div class="hold"><p>The tool exits 1 if the output CSV cannot be written, or if any named log file could not be read. Exit 0 means the timeline was written and every named log file was read.</p></div>
+<h2>Stated limits</h2>
+<div class="hold"><p><code>-o</code> and <code>-tsf</code> are both listed with no description provided, and this page does not guess at either. An earlier <code>-p</code> / <code>--priority</code> option was removed in 2026. It accepted a minimum priority but never filtered anything, because the log lines this tool parses carry no priority field. Use <code>-k</code> to filter by keyword instead. The licence line at the close of the README is a copyright line only, with no licence named.</p></div>
 </main>
-<footer><p>Theme: a lightning rod salesman's sample case. Type: Averia Gruesa Libre for headings, Bitter for reading, both SIL Open Font License 1.1. Lettering reference Horizon was reference only and is not embedded; lettering follows forecast entry headings and maker's stamps.</p></footer>
+<footer>analyze-forensic-timeline-generator, square by square, in order. Fonts: Kameron and Source Serif 4, self-hosted under the SIL Open Font License.</footer>
 </body>
 </html>
