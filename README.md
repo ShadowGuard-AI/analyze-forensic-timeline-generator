@@ -1,11 +1,12 @@
-![Farmyard before a storm with no inscription anywhere: open sample case with rods on the cart tailboard in front, barn with a blackened gable and farmhouse with its older rod behind, still wash on a line, and a large sky with one distant sheet of rain](intro-banner.png)
+![One excavation square close up as a gloved hand brushes soil from a pottery shard lying exactly where it fell, the white string grid sharp around it and an orange marker flag soft behind](intro-banner.png)
 
 # analyze-forensic-timeline-generator
 
-![Farmyard in copper storm light with the salesman's cart and open sample case at the centre, an assembled rod on trestles, and the project name stencilled inside the case lid](banner.png)
+![Long excavation trench in flat daylight divided by white string into a row of even squares, buckets and brushes at the trench edge, small finds lying in place in square after square, one orange flag standing in a single square near the centre](banner.png)
+
+<p align="center"><img src="logo.png" alt="One square of an excavation trench from directly above, brown soil divided by taut white string, a pottery shard and a corroded coin lying where they were uncovered, one orange marker flag at the square corner" width="180"></p>
 
 ![Farmyard in three planes: clouds drift and darken, the barn vane turns in small steps and a barometer needle trembles, and near the open case a brightening travels along the rod tips in sequence like an eye reading entries in order](scene.svg)
-
 
 # analyze-forensic-timeline-generator
 Generates a timeline of system events from log files to reconstruct attack sequences. Supports different timestamp formats. - Focused on Data analysis and reporting
