@@ -7,9 +7,7 @@
 <p align="center"><img src="logo.png" alt="One square of an excavation trench from directly above, brown soil divided by taut white string, a pottery shard and a corroded coin lying where they were uncovered, one orange marker flag at the square corner" width="180"></p>
 
 ![Farmyard in three planes: clouds drift and darken, the barn vane turns in small steps and a barometer needle trembles, and near the open case a brightening travels along the rod tips in sequence like an eye reading entries in order](scene.svg)
-
-# analyze-forensic-timeline-generator
-Generates a timeline of system events from log files to reconstruct attack sequences. Supports different timestamp formats. - Focused on Data analysis and reporting
+Generates a timeline of system events from log files to reconstruct attack sequences. Supports different timestamp formats, focusing on automated data analysis and reporting
 
 ## Install
 `git clone https://github.com/ShadowGuardAI/analyze-forensic-timeline-generator`
